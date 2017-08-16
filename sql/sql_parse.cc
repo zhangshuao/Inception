@@ -5159,7 +5159,7 @@ int mysql_check_column_default(
         }
 
         //检查INT类型不能为字符串
-        if ((field_info->real_type == MYSQL_TYPE_INT24
+        if (field_info && (field_info->real_type == MYSQL_TYPE_INT24
             || field_info->real_type == MYSQL_TYPE_TINY
             || field_info->real_type == MYSQL_TYPE_LONG
             || field_info->real_type == MYSQL_TYPE_LONGLONG) && default_value->type() == Item::STRING_ITEM)
@@ -7921,8 +7921,8 @@ int mysql_get_create_sql_from_table_info(
 
     create_sql->append("id bigint auto_increment primary key, ");
     create_sql->append("rollback_statement mediumtext, ");
-    create_sql->append("opid_time varchar(50)");
-
+    create_sql->append("opid_time varchar(50), ");
+    create_sql->append("KEY idx_opid_time (opid_time)");
     create_sql->append(") ENGINE INNODB DEFAULT CHARSET UTF8;");
 
     return 0;
